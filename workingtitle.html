@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="alternate" type="application/rss+xml" href="{RSS}">
+    <link rel="shortcut icon" href="{Favicon}">
+    <title>{Title}{block:SearchPage} ({lang:Search results for SearchQuery}){/block:SearchPage}{block:PermalinkPage}{block:PostSummary} — {PostSummary}{/block:PostSummary}{/block:PermalinkPage}</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    {block:Description}
+    <meta name="description" content="{MetaDescription}">
+    {/block:Description}
+    <meta name="color:PostText" content="#222"/>
+    <meta name="color:PostInfo" content="#999"/>
+    <style>
+        {customcss}
+        body {
+            background-image: url({HeaderImage});
+            background-attachment: fixed;
+            font-family: "Open Sans", sans-serif;
+            font-weight: 600;
+            font-size: 10pt;
+            color: {color:PostText};
+        }
+        a {
+            text-decoration: none;
+            transition: .2s;
+            color: inherit;
+        } a:hover {
+            color: {AccentColor};
+            text-shadow: none;
+        }
+        p, figure {
+            margin: 0 !important;
+            word-wrap: break-word;
+        }
+        blockquote {
+            margin-after: 0 !important;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            margin-bottom: .5rem;
+        }
+        ul, ol {
+            list-style: none;
+        }
+        @media(min-width: 1000px) {
+            #posts-container {
+                float: left;
+                margin-left: 10vw;
+                margin-top: 4rem;
+                width: 40rem;
+            }
+            #top-card {
+                position: fixed;
+                top: 4rem;
+                right: 4rem;
+                width: 20;
+            }
+        }
+        @media(max-width: 1000px) {
+            #posts-container {
+                margin: auto;
+                margin-top: 2rem;
+                width: 90%;
+            }
+        }
+        
+        #titlecontainer {
+            color: {TitleColor};
+            margin-bottom: 1rem;
+        }
+        #title {
+            font-size: 20pt;
+        }
+        
+        h2 {
+            font-size: 16pt;
+        }
+        
+        #postcontainer, #titlecontainer {
+            transition: .3s;
+        }
+
+        .quote-text {
+            font-size: 14pt;
+            font-weight: 400;
+        }
+        #description {
+            margin-top: .5rem;
+            font-weight: 600;
+        }
+        .post-container {
+            border-top: 4px solid;
+            border-color: {AccentColor};
+            padding: 1rem 1rem 1rem 1rem;
+            margin-bottom: 2rem;
+            background-color: {BackgroundColor};
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+        #navlinks {
+           text-align: center;
+        }
+        .post-info {
+            margin-top: .5rem;
+        }
+        .post-info>span {
+            margin-right: .5rem;
+            transition: .2s;
+            color: {color:PostInfo};
+        }
+        .photoset-wrapper {
+            margin-bottom: .5rem;
+        }
+        .previous {
+            margin-right: 1rem;
+        }
+        
+        ol.notes img.avatar {display: none;}
+        .reblog-button {
+            color: {color:PostInfo};
+            transition: .2s;
+        } .reblog-button:hover {
+            opacity: 1;
+        }
+        
+        form {
+            display: inline-block;
+        }
+        input {
+            font-family: "Open Sans"
+        }
+        #search-container {
+            
+        }
+        #searchbox {
+            border: none;
+            border-bottom: 2px solid {color:PostInfo};
+            outline: none;
+            font-weight: 600;
+            background: transparent;
+            color: {color:PostInfo};
+            transition: .2s;
+            margin-right: .5rem;
+        } #searchbox:focus {
+            border-bottom: 2px solid {color:PostInfo};
+            border-color: {AccentColor};
+        }
+        #searchbutton {
+            color: {color:PostInfo};
+            border: none;
+            background: none;
+            outline: none;
+            cursor: pointer;
+            font-weight: 600;
+            outline: none;
+            transition: .2s;
+            font-family: "Open Sans", sans-serif;
+        } #searchbutton:hover {
+            color: {AccentColor};
+        }
+        #top-links>a {
+            margin-right: 1rem;
+            color: {color:PostInfo};
+        }  #top-links>a:hover {
+            margin-right: 1rem;
+            color: {AccentColor};
+        }
+        .tags-container {
+            margin-top: .5rem;
+        }
+        .tag-link {
+            color: {Color:PostInfo};
+            margin-right: .5rem;
+        } .tag-link:before {
+            content: "#";
+        }
+        .permalink {
+            color: {Color:PostInfo};
+        }
+        ::selection {
+            color: {BackgroundColor} !important;
+            background: {AccentColor};
+        }
+        .audio_player>iframe {
+            height: 100px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="posts-container">
+    
+    
+        <div class="post-container" id="top-card">
+            <div id="titlecontainer">
+                <div id="title">
+                    <a href="/">{Title}</a>
+                </div>
+                <div id="description">
+                    {Description}
+                </div>
+            </div>
+        
+            <span id="top-links">
+            {block:AskEnabled}
+            <a href="/ask" class="ask">{AskLabel}</a>
+            {/block:AskEnabled}
+            
+            {block:SubmissionsEnabled}
+            <a href="/submit" class="submit">{SubmitLabel}</a>
+            {/block:SubmissionsEnabled}
+            </span>
+            
+            <span id="search-container">
+                <form action="/search" method="get">
+                    <input type="text" name="q" value="{SearchQuery}" id="searchbox"/>
+                    <button type="submit" id="searchbutton">search</button>
+                </form>
+            </span>
+        </div>
+
+        {block:SearchPage}
+        <div class="post-container">
+            <div class="search-header content">
+                <h2 class="search-title">
+                    {lang:SearchResultCount results for SearchQuery}
+                    {block:NoSearchResults}{lang:Sorry no search results found}{/block:NoSearchResults}
+                </h2>
+            </div>
+        </div>
+        {/block:SearchPage}
+
+
+        {block:Posts}
+        {block:ContentSource}
+<!-- {SourceURL}{block:SourceLogo}<img src="{BlackLogoURL}"
+width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />  
+{/block:SourceLogo}
+{block:NoSourceLogo}{SourceLink}{/block:NoSourceLogo} -->
+{/block:ContentSource}
+
+            <div class="post-container">
+
+                {block:Text}
+                <div class="post-content">
+                    {block:Title}<h2 class="title"><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+                    {block:Body}
+                    <div class="body-text">
+                        {Body}
+                    </div>
+                    {/block:Body}
+                </div>
+                {/block:Text}
+                
+                {block:Photo}
+                    <figure class="photo-wrapper">
+                            <a href = "{PhotoURL-HighRes}" target = "_blank"><img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" width="{PhotoWidth-HighRes}" height="{PhotoHeight-HighRes}"></a>
+                    </figure>
+                    {block:Caption}
+                    <figcaption class="caption">
+                        {Caption}
+                    </figcaption>
+                    {/block:Caption}
+                {/block:Photo}                
+                
+                {block:Photoset}
+                <figure class="post-content photoset {block:Caption}with-caption{/block:Caption}">
+                    <div class="photoset-wrapper">{Photoset}</div>
+                    {block:Caption}
+                    <figcaption class="caption">
+                        {Caption}
+                    </figcaption>
+                    {/block:Caption}
+                </figure>
+                {/block:Photoset}
+                
+                {block:Quote}
+                <div class="post-content">
+                    <span class="quote-text">{Quote}</span>
+                    {block:Source}
+                    <div class="source">- {Source}</div>
+                    {/block:Source}
+                </div>
+                {/block:Quote}
+        
+        
+                {block:Link}
+                <div class="post-content {block:Description}with-caption{/block:Description}">
+                    <div class="link-wrapper">
+                        <a {Target} href="{URL}" class="link">
+                            {block:Thumbnail}
+                                <img src="{Thumbnail}" alt="" class="link-thumbnail">
+                            {/block:Thumbnail}
+                            <span class="link-text-wrapper">
+                                <span class="link-text">
+                                    <span class="link-title">{Name}</span>
+                                    {block:Host}
+                                    <span class="link-host">{Host}</span>
+                                    {/block:Host}
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                    {block:Description}
+                    <div class="caption">
+                        {Description}
+                    </div>
+                    {/block:Description}
+                </div>
+                {/block:Link}
+                
+                {block:Chat}
+                <div class="post-content">
+                    {block:Title}<h2 class="title"><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+                    <ul class="conversation">
+                    {block:Lines}
+                        <li class="chat-{Alt}">{block:Label}<span class="label">{Label}</span>{/block:Label} {Line}</li>
+                    {/block:Lines}
+                    </ul>
+                </div>
+                {/block:Chat}
+
+
+                {block:Audio}
+                <div class="post-content {block:Caption}with-caption{/block:Caption}">
+                    <div class="audio_container">
+                        {AudioPlayer}
+                        {block:AudioEmbed}
+                            {AudioPlayer}
+                        {/block:AudioEmbed}
+                    </div>
+                    {block:Caption}
+                    <div class="caption">
+                        {Caption}
+                    </div>
+                    {/block:Caption}
+                </div>
+                {/block:Audio}
+
+
+                {block:Video}
+                <figure class="post-content {block:Caption}with-caption{/block:Caption}">
+                    <div class="video-wrapper">
+                        {Video-700}
+                    </div>
+                    {block:Caption}
+                    <figcaption class="caption">
+                        {Caption}
+                    </figcaption>
+                    {/block:Caption}
+                </figure>
+                {/block:Video}
+
+                {block:Answer}
+                <div class="post-content">
+                    <div class="note-item note-item-asker">
+                        <div class="text">
+                            <p class="asker"><strong>{Asker}</strong> asked:</p>
+                            <blockquote class="asker-question">
+                                {Question}
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    {block:Answerer}
+                    <div class="note-item note-item-answerer">
+                        <div class="text">
+                            <p class="answerer"><strong>{Answerer}</strong> answered:</p>
+                            <div class="answerer-answer">
+                                {Answer}
+                            </div>
+                        </div>
+                    </div>
+                    {/block:Answerer}
+
+                    <div class="replies">
+                        {Replies}
+                    </div>
+                </div>
+                {/block:Answer}
+                
+                {block:Date}
+                <div class="post-info">
+                    {block:RebloggedFrom}
+                    <span class="reblog-header">
+                        <a class="reblog-link" href="{ReblogParentURL}">via {ReblogParentName}</a>
+                    </span>
+                    {/block:RebloggedFrom}
+                    {block:NoteCount}
+                    <span>
+                        <a href="{Permalink}#notes" class="meta-item post-notes">{NoteCountWithLabel}</a>
+                    </span>
+                    {/block:NoteCount}
+                    
+                    <!--<span class="my-like" data-reblog="{ReblogURL}" data-id="{PostID}" title="Like">like</span> -->
+                    <a class="reblog-button" href={reblogURL}>reblog</a>
+                    
+                    <a style="float: right" href={Permalink} class="permalink" title="permalink">+</a>
+                </div>
+                {/block:Date}
+                
+                {block:HasTags}
+                <div class="tags-container">
+                    {block:Tags}
+                         <a class="meta-item tag-link" href="{TagURL}">{Tag}</a>
+                    {/block:Tags}
+                </div>
+                {/block:HasTags}
+            
+            
+            </div>
+            
+            
+            
+        {/block:Posts}
+        
+        {block:PermalinkPage}
+        {block:PostNotes}
+        <div class="post-container">
+        <section id="notes" class="notes-wrapper clearfix">
+            {PostNotes}
+        </section>
+        </div>
+        {/block:PostNotes}
+        {/block:PermalinkPage}
+        
+        
+
+            {block:IndexPage}
+            {block:Pagination}
+            <div class="post-container">
+            <div id="navlinks">
+            <div id="pagination">
+                {block:PreviousPage}
+                <a href="{PreviousPage}" class="previous" data-current-page="{CurrentPage}" data-total-pages="{TotalPages}">prev<span class="bg"></span></a>
+                {/block:PreviousPage}
+                {block:NextPage}
+                <a href="{NextPage}" class="next" data-current-page="{CurrentPage}" data-total-pages="{TotalPages}">next<span class="bg"></span></a>
+                {/block:NextPage}
+            </div>
+            </div>
+        </div>
+        {/block:Pagination}
+        {/block:IndexPage}
+    </div>
+    
+</body>
+</html>

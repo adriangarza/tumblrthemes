@@ -9,8 +9,8 @@
     {block:Description}
     <meta name="description" content="{MetaDescription}">
     {/block:Description}
-    <meta name="color:PostText" content="#222"/>
-    <meta name="color:PostInfo" content="#999"/>
+    <meta name="color:Post Text Color" content="#222"/>
+    <meta name="color:Post Info Color" content="#999"/>
     <style>
         {customcss}
         body {
@@ -19,7 +19,7 @@
             font-family: "Open Sans", sans-serif;
             font-weight: 600;
             font-size: 10pt;
-            color: {color:PostText};
+            color: {color:Post Text Color};
         }
         a {
             text-decoration: none;
@@ -44,7 +44,18 @@
         ul, ol {
             list-style: none;
         }
-        @media(min-width: 1000px) {
+        @media(max-width: 40rem) {
+            #posts-container {
+                width: 100vw !important;
+            }
+            .post-container {
+                width: 100% !important;
+            }
+            blockquote {
+                margin-left: 0 !important
+            }
+        }
+        @media(min-width: 50rem) {
             #posts-container {
                 float: left;
                 margin-left: 10vw;
@@ -53,16 +64,30 @@
             }
             #top-card {
                 position: fixed;
-                top: 4rem;
                 right: 4rem;
-                width: 20;
+                width: 25rem;
+                top: 4rem;
             }
         }
-        @media(max-width: 1000px) {
+        @media(max-width: 50rem) {
             #posts-container {
                 margin: auto;
                 margin-top: 2rem;
                 width: 90%;
+            }
+        }
+        @media(max-width: 70rem) {
+            #top-card {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+            }
+            #posts-container {
+                margin-left auto;
+                margin-right: auto;
+                margin-top: 2rem;
+                width: 80%;
             }
         }
         
@@ -77,10 +102,21 @@
         h2 {
             font-size: 16pt;
         }
-        
-        #postcontainer, #titlecontainer {
-            transition: .3s;
+
+        #posts-container  {
+            animation: test .5s;
         }
+        
+        @keyframes test {
+            from {
+                opacity: 0;
+                transform: translateY(7rem)
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    
 
         .quote-text {
             font-size: 14pt;
@@ -107,7 +143,7 @@
         .post-info>span {
             margin-right: .5rem;
             transition: .2s;
-            color: {color:PostInfo};
+            color: {color:Post Info Color};
         }
         .photoset-wrapper {
             margin-bottom: .5rem;
@@ -118,7 +154,7 @@
         
         ol.notes img.avatar {display: none;}
         .reblog-button {
-            color: {color:PostInfo};
+            color: {color:Post Info Color};
             transition: .2s;
         } .reblog-button:hover {
             opacity: 1;
@@ -130,24 +166,21 @@
         input {
             font-family: "Open Sans"
         }
-        #search-container {
-            
-        }
         #searchbox {
             border: none;
-            border-bottom: 2px solid {color:PostInfo};
+            border-bottom: 2px solid {color:Post Info Color};
             outline: none;
             font-weight: 600;
             background: transparent;
-            color: {color:PostInfo};
+            color: {color:Post Info Color};
             transition: .2s;
             margin-right: .5rem;
         } #searchbox:focus {
-            border-bottom: 2px solid {color:PostInfo};
+            border-bottom: 2px solid {color:Post Info Color};
             border-color: {AccentColor};
         }
         #searchbutton {
-            color: {color:PostInfo};
+            color: {color:Post Info Color};
             border: none;
             background: none;
             outline: none;
@@ -161,7 +194,7 @@
         }
         #top-links>a {
             margin-right: 1rem;
-            color: {color:PostInfo};
+            color: {color:Post Info Color};
         }  #top-links>a:hover {
             margin-right: 1rem;
             color: {AccentColor};
@@ -170,13 +203,13 @@
             margin-top: .5rem;
         }
         .tag-link {
-            color: {Color:PostInfo};
+            color: {Color:Post Info Color};
             margin-right: .5rem;
         } .tag-link:before {
             content: "#";
         }
         .permalink {
-            color: {Color:PostInfo};
+            color: {Color:Post Info Color};
         }
         ::selection {
             color: {BackgroundColor} !important;
@@ -186,14 +219,18 @@
             height: 100px;
             width: 100%;
         }
+        #credits {
+            color: {TitleColor};
+            opacity: .5;
+            position: fixed;
+            bottom: .5rem;
+            right: .5rem;
+        }
     </style>
 </head>
 <body>
 
-    <div id="posts-container">
-    
-    
-        <div class="post-container" id="top-card">
+         <div class="post-container" id="top-card">
             <div id="titlecontainer">
                 <div id="title">
                     <a href="/">{Title}</a>
@@ -220,6 +257,8 @@
                 </form>
             </span>
         </div>
+
+    <div id="posts-container">
 
         {block:SearchPage}
         <div class="post-container">
@@ -288,21 +327,17 @@ width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
         
                 {block:Link}
                 <div class="post-content {block:Description}with-caption{/block:Description}">
-                    <div class="link-wrapper">
-                        <a {Target} href="{URL}" class="link">
-                            {block:Thumbnail}
-                                <img src="{Thumbnail}" alt="" class="link-thumbnail">
-                            {/block:Thumbnail}
-                            <span class="link-text-wrapper">
-                                <span class="link-text">
-                                    <span class="link-title">{Name}</span>
-                                    {block:Host}
-                                    <span class="link-host">{Host}</span>
-                                    {/block:Host}
-                                </span>
-                            </span>
-                        </a>
-                    </div>
+                    <a {Target} href="{URL}" class="link">
+                        {block:Thumbnail}
+                        <img src="{Thumbnail}" alt="" class="link-thumbnail">
+                        {/block:Thumbnail}
+                        <span class="link-text">
+                            <span class="link-title">{Name}</span>
+                            {block:Host}
+                            <span class="link-host">{Host}</span>
+                            {/block:Host}
+                        </span>
+                    </a>
                     {block:Description}
                     <div class="caption">
                         {Description}
@@ -446,5 +481,6 @@ width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
         {/block:IndexPage}
     </div>
     
+    <div id="credits"><a href="https://github.com/adriangarza">+</a></div>
 </body>
 </html>

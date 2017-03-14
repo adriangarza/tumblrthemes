@@ -11,17 +11,21 @@
     {/block:Description}
     <meta name="color:Post Text Color" content="#222"/>
     <meta name="color:Post Info Color" content="#999"/>
+    <meta name="color:Page Background Color" content="#fff"/>
     <style>
         {customcss}
         body {
+            {block:ShowHeaderImage} 
             background-image: url({HeaderImage});
             background-attachment: fixed;
+            {/block:ShowHeaderImage} 
             font-family: "Open Sans", sans-serif;
             font-weight: 600;
             font-size: 10pt;
             color: {color:Post Text Color};
             margin: 0;
             overflow-x: hidden;
+            background-color: {color:Page Background Color};
         }
         a {
             text-decoration: none;
@@ -103,7 +107,6 @@
         
         h2 {
             font-size: 16pt;
-            margin-top: 0 !important;
         }
 
         #posts-container  {
@@ -130,7 +133,7 @@
             font-weight: 600;
         }
         .post-container {
-            border-top: 4px solid;
+            border-top: 5pt solid;
             border-color: {AccentColor};
             padding: 1rem 1rem 1rem 1rem;
             margin-bottom: 2rem;
@@ -224,10 +227,17 @@
         }
         #credits {
             color: {TitleColor};
-            opacity: .5;
             position: fixed;
             bottom: .5rem;
             right: .5rem;
+            background-color: {BackgroundColor};
+            padding: .1rem .3rem;
+            font-size: 8pt;
+            border-top: 3pt solid {AccentColor};
+        }
+        .read_more {
+            padding-bottom: 2pt;
+            border-bottom: 2px solid {AccentColor};
         }
     </style>
 </head>
@@ -484,6 +494,6 @@ width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
         {/block:IndexPage}
     </div>
     
-    <div id="credits"><a href="https://github.com/adriangarza">+</a></div>
+    <div id="credits"><a href="https://pleinairtheme.tumblr.com/" id="credits-link">+</a></div>
 </body>
 </html>

@@ -39,8 +39,10 @@
             margin: 0 !important;
             word-wrap: break-word;
         }
-        blockquote {
+        blockquote>blockquote {
             margin-after: 0 !important;
+            border-left: 2px solid {color:Post Info Color};
+            padding-left: 1rem;
         }
         img {
             width: 100%;
@@ -50,9 +52,13 @@
         ul, ol {
             list-style: none;
         }
+        p>a:not(.read_more):not(.tumblr_blog) {
+            text-decoration: underline;
+        }
         @media(max-width: 40rem) {
             #posts-container {
                 width: 100vw !important;
+                margin-top: 10rem !important;
             }
             .post-container {
                 width: 100% !important;
@@ -241,7 +247,7 @@
         }
         .read_more {
             padding-bottom: 2pt;
-            border-bottom: 2px solid {AccentColor};
+            border-bottom: 2px solid {AccentColor};s
         }
     </style>
 </head>
@@ -312,7 +318,7 @@ width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
                 
                 {block:Photo}
                     <figure class="photo-wrapper">
-                            <a href = "{PhotoURL-HighRes}" target = "_blank"><img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" width="{PhotoWidth-HighRes}" height="{PhotoHeight-HighRes}"></a>
+                            {LinkOpenTag}<a href = "{PhotoURL-HighRes}" target = "_blank"><img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" width="{PhotoWidth-HighRes}" height="{PhotoHeight-HighRes}"></a>{LinkCloseTag}
                     </figure>
                     {block:Caption}
                     <figcaption class="caption">
@@ -432,6 +438,7 @@ width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
                     </div>
                 </div>
                 {/block:Answer}
+                
                 
                 {block:Date}
                 <div class="post-info">

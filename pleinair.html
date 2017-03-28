@@ -216,7 +216,7 @@
             color: {AccentColor};
         }
         .tags-container {
-            margin-top: .5rem;
+            margin: .5rem 0;
         }
         .tag-link {
             color: {Color:Post Info Color};
@@ -453,13 +453,6 @@ width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
                     </span>
                     {/block:NoteCount}
                     
-                    <!--<span class="my-like" data-reblog="{ReblogURL}" data-id="{PostID}" title="Like">like</span> -->
-                    <a class="reblog-button" href={reblogURL}>reblog</a>
-                    
-                    <a style="float: right" href={Permalink} class="permalink" title="permalink">+</a>
-                </div>
-                {/block:Date}
-                
                 {block:HasTags}
                 <div class="tags-container">
                     {block:Tags}
@@ -467,6 +460,11 @@ width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />
                     {/block:Tags}
                 </div>
                 {/block:HasTags}
+                    <a class="reblog-button" href={reblogURL}>reblog</a>
+                    
+                    <a style="float: right" href={Permalink} class="permalink" title="permalink">+</a>
+                </div>
+                {/block:Date}
             
             
             </div>

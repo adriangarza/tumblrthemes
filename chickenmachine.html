@@ -64,9 +64,11 @@
                 text-align: center;
             }
             .navlinks>a{
-                margin-right: 2rem;
                 text-decoration: none;
                 padding: 0rem .3rem;
+            }
+            .navlinks>a:not(:last-child) {
+                margin-right: 2rem;
             }
             .permalink {
                 font-size: 14pt;
@@ -99,6 +101,12 @@
             .post-container:not(:last-child) {
                 padding-bottom: 5rem;
                 margin-bottom: 5rem;
+            }
+            .chat-container {
+                margin: 1rem 0rem;
+            }
+            .chat-label {
+                font-weight: 600;
             }
         </style>
     </head>
@@ -154,6 +162,19 @@
                 <div class="subtitle">{Body}</div>
             {/block:Text}
             
+            {block:Chat}
+                {block:Title}<div class="post-title">{Title}</div>{/block:Title}
+                {block:Lines}
+                <div class="chat-container">
+                    <p class="chat-line">
+                    {block:Label}<span class="chat-label">{Label}</span>{/block:Label}
+                    <span class="chat-line-content">{Line}</span>
+                    </p>
+                </div>
+                {/block:Lines}
+            {/block:Chat}
+            
+            <!-- Bottom non-post things ================== -->
             {block:HasTags}
                 <div class="tags-container">
                     <span class="tag">tags: </span>

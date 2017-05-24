@@ -89,24 +89,33 @@
                 font-weight: 600;
             }
             .tag {
-                opacity: .5;
+                color: #bbb;
             }
             a.tag:hover {
                 background-color: {AccentColor};
-                opacity: 1;
+                color: black;
             }
             a.tag:not(:last-child):after {
                 content: ",";
-            }
-            .post-container:not(:last-child) {
-                padding-bottom: 5rem;
-                margin-bottom: 5rem;
             }
             .chat-container {
                 margin: 1rem 0rem;
             }
             .chat-label {
                 font-weight: 600;
+            }
+            .source {
+                margin: 1rem 0rem;
+            }
+            .quote-title:before {
+                content: "“";
+            }
+            .quote-title:after {
+                content: "”";
+            }
+            ::selection {
+                background: {AccentColor};
+                color: black;
             }
         </style>
     </head>
@@ -173,6 +182,13 @@
                 </div>
                 {/block:Lines}
             {/block:Chat}
+            
+            {block:Quote}
+                <div class="post-title quote-title">{Quote}</div>
+                {block:Source}
+                    <p class="source">- {Source}</p>
+                {/block:Source}
+            {/block:Quote}
             
             <!-- Bottom non-post things ================== -->
             {block:HasTags}

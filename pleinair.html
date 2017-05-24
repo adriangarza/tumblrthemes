@@ -1,232 +1,508 @@
 <!DOCTYPE html>
-    <head>
-        {MobileAppHeaders}
-        <meta charset="utf-8">
-        <link rel="alternate" type="application/rss+xml" href="{RSS}">
-        <link rel="shortcut icon" href="{Favicon}">
-        <title>{Title}</title>
-        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
-        <style>
-            body {
-                font-family: "Source Code Pro", monospace;
-                font-size: 14pt;
-                font-weight: 500;
-            }
-            .title {
-                font-family: "Open Sans", sans-serif;  
-                font-weight: 700;
-                font-size: 36pt;
-            }
-            .title>a{
-                padding: 0rem .3rem;
-            }   
-            .title>a:hover {
-                background-color: {AccentColor};
-            }
-            .title>a:active{
-                background-color: inherit;
-            }
-            #header-container {
-                margin-top: 4rem;
-                width: auto;
-                text-align: center;
-            }
-            .accentbg {
-                background-color: {AccentColor};
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="alternate" type="application/rss+xml" href="{RSS}">
+    <link rel="shortcut icon" href="{Favicon}">
+    <title>{Title}{block:SearchPage} ({lang:Search results for SearchQuery}){/block:SearchPage}{block:PermalinkPage}{block:PostSummary} — {PostSummary}{/block:PostSummary}{/block:PermalinkPage}</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    {block:Description}
+    <meta name="description" content="{MetaDescription}">
+    {/block:Description}
+    <meta name="color:Post Text Color" content="#222"/>
+    <meta name="color:Post Info Color" content="#999"/>
+    <meta name="color:Page Background Color" content="#fff"/>
+    <style>
+        {customcss}
+        body {
+            {block:ShowHeaderImage} 
+            background-image: url({HeaderImage});
+            background-attachment: fixed;
+            {/block:ShowHeaderImage} 
+            font-family: "Open Sans", sans-serif;
+            font-weight: 600;
+            font-size: 10pt;
+            color: {color:Post Text Color};
+            margin: 0;
+            overflow-x: hidden;
+            background-color: {color:Page Background Color};
+        }
+        a {
+            text-decoration: none;
+            transition: .2s;
+            color: inherit;
+        } a:hover {
+            color: {AccentColor};
+            text-shadow: none;
+        }
+        p, figure {
+            margin: 0 !important;
+            word-wrap: break-word;
+        }
+        blockquote>blockquote {
+            margin-after: 0 !important;
+            border-left: 2px solid {color:Post Info Color};
+            padding-left: 1rem;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            margin-bottom: .5rem;
+        }
+        ul, ol {
+            list-style: none;
+        }
+        p>a:not(.read_more):not(.tumblr_blog) {
+            text-decoration: underline;
+        }
+        @media(max-width: 40rem) {
+            #posts-container {
+                width: 100vw !important;
+                margin-top: 10rem !important;
             }
             .post-container {
-                width: 700px;
-                margin: 3rem auto;
+                width: 100% !important;
             }
-            img {
-                width: 100%;
-                height: auto;
+            blockquote {
+                margin-left: 0 !important
             }
-            .caption-container {
-                
+        }
+        @media(min-width: 50rem) {
+            #posts-container {
+                float: left;
+                margin-left: 10vw;
+                margin-top: 4rem;
+                width: 40rem;
             }
-            .photoset_row {
-                margin-right: 0px !important;
-                display: block;
+            #top-card {
+                position: fixed;
+                right: 4rem;
+                width: 25rem;
+                top: 4rem;
             }
-            a {
-                color: inherit;
-                text-decoration: none;
-            }
-            .navcontainer {
-                width: 700px;
+        }
+        @media(max-width: 50rem) {
+            #posts-container {
                 margin: auto;
-                margin-bottom: 4rem;
+                margin-top: 2rem;
+                width: 90%;
             }
-            .navlinks {
-                margin-top: 1rem;
-                text-align: center;
+        }
+        @media(max-width: 70rem) {
+            #top-card {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
             }
-            .navlinks>a{
-                text-decoration: none;
-                padding: 0rem .3rem;
+            #posts-container {
+                margin-left auto;
+                margin-right: auto;
+                margin-top: 2rem;
+                width: 80%;
             }
-            .navlinks>a:not(:last-child) {
-                margin-right: 2rem;
+            #credits {
+                display: none;
             }
-            .permalink {
-                font-size: 14pt;
-                float: right;
-                opacity: .5;
-            }
-            .permalink:hover {
-                background-color: {AccentColor};
-                opacity:1;
-            }
-            p {
-                margin: 0;
-                margin-bottom: .5rem;
-            }
-            .post-title {
-                font-size: 30pt;   
-                font-family: "Open Sans";
-                font-weight: 600;
-            }
-            .tag {
-                color: #bbb;
-            }
-            a.tag:hover {
-                background-color: {AccentColor};
-                color: black;
-            }
-            a.tag:not(:last-child):after {
-                content: ",";
-            }
-            .chat-container {
-                margin: 1rem 0rem;
-            }
-            .chat-label {
-                font-weight: 600;
-            }
-            .source {
-                margin: 1rem 0rem;
-            }
-            .quote-title:before {
-                content: "“";
-            }
-            .quote-title:after {
-                content: "”";
-            }
-            ::selection {
-                background: {AccentColor};
-                color: black;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="header-container">
-            <div class="title"><a href="/">{Title}</a></div>
-            <div class="subtitle">{Description}</div>
-            {block:TagPage}<div class="subtitle">posts tagged with: {Tag}</div>{/block:TagPage}
-        </div>
+        }
         
-        {block:Pagination}
-        <div class="navcontainer">
-            <div class="navlinks">
-                {block:NextPage}<a href="{NextPage}" class="navbutton accentbg" class="next">prev</a>{/block:NextPage}
-                <a href="{BlogURL}archive" class="accentbg">archive</a>
-                <a href="{BlogURL}random" class="accentbg">random</a>
-                {block:PreviousPage} <a href="{PreviousPage}" class="navbutton accentbg" class="prev">next</a>{/block:PreviousPage}
-            </div>
-        </div>
-        {/block:Pagination}
+        #titlecontainer {
+            color: {TitleColor};
+            margin-bottom: 1rem;
+        }
+        #title {
+            font-size: 20pt;
+        }
         
-        {block:PermalinkPagination}
-        <div class="navcontainer">
-            <div class="navlinks">
-                {block:PreviousPost}<a href="{PreviousPost}" class="navbutton accentbg" class="prev">prev</a>{/block:PreviousPost}
-                <a href="{BlogURL}archive" class="accentbg">archive</a>
-                <a href="{BlogURL}random" class="accentbg">random</a>
-                {block:NextPost}<a href="{NextPost}" class="navbutton accentbg" class="next">next</a>{/block:NextPost}
-            </div>
-        </div>
-        {/block:PermalinkPagination}
+        h2 {
+            font-size: 16pt;
+            margin-top: 0;
+        }
+
+        #posts-container  {
+            animation: test .5s;
+        }
+        
+        @keyframes test {
+            from {
+                opacity: 0;
+                transform: translateY(7rem)
+            }
+            to {
+                opacity: 1;
+            }
+        }
     
-    
-        {block:Posts}
-        <div class="post-container">
-            {block:Photo}
-                {LinkOpenTag}
-                    <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" width="{PhotoWidth-HighRes}" height="{PhotoHeight-HighRes}">
-                {LinkCloseTag}
-                {block:Caption}
-                    <div class="caption-container">{Caption}</div>
-                {/block:Caption}
-            {/block:Photo}
-            
-            {block:Photoset}
-            <div class="photoset-container">
-                {Photoset-700}
-                <div class="caption-container">{Caption}</div>
-            </div>
-            {/block:Photoset}
-            
-            {block:Text}
-                {block:Title}<div class="post-title">{Title}</div>{/block:Title}
-                <div class="subtitle">{Body}</div>
-            {/block:Text}
-            
-            {block:Chat}
-                {block:Title}<div class="post-title">{Title}</div>{/block:Title}
-                {block:Lines}
-                <div class="chat-container">
-                    <p class="chat-line">
-                    {block:Label}<span class="chat-label">{Label}</span>{/block:Label}
-                    <span class="chat-line-content">{Line}</span>
-                    </p>
+
+        .quote-text {
+            font-size: 14pt;
+            font-weight: 400;
+        }
+        #description {
+            margin-top: .5rem;
+            font-weight: 600;
+        }
+        .post-container {
+            border-top: 5pt solid;
+            border-color: {AccentColor};
+            padding: 1rem 1rem 1rem 1rem;
+            margin-bottom: 2rem;
+            background-color: {BackgroundColor};
+            box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
+        }
+        #navlinks {
+           text-align: center;
+        }
+        .post-info {
+            margin-top: .5rem;
+        }
+        .post-info>span {
+            margin-right: .5rem;
+            transition: .2s;
+            color: {color:Post Info Color};
+        }
+        .photoset-wrapper {
+            margin-bottom: .5rem;
+        }
+        .previous {
+            margin-right: 1rem;
+        }
+        
+        ol.notes img.avatar {display: none;}
+        .reblog-button {
+            color: {color:Post Info Color};
+            transition: .2s;
+        } .reblog-button:hover {
+            opacity: 1;
+        }
+        
+        form {
+            display: inline-block;
+        }
+        input {
+            font-family: "Open Sans"
+        }
+        #searchbox {
+            border: none;
+            border-bottom: 2px solid {color:Post Info Color};
+            outline: none;
+            font-weight: 600;
+            background: transparent;
+            color: {color:Post Info Color};
+            transition: .2s;
+            margin-right: .5rem;
+        } #searchbox:focus {
+            border-bottom: 2px solid {color:Post Info Color};
+            border-color: {AccentColor};
+        }
+        #searchbutton {
+            color: {color:Post Info Color};
+            border: none;
+            background: none;
+            outline: none;
+            cursor: pointer;
+            font-weight: 600;
+            outline: none;
+            transition: .2s;
+            font-family: "Open Sans", sans-serif;
+        } #searchbutton:hover {
+            color: {AccentColor};
+        }
+        #top-links>a {
+            margin-right: 1rem;
+            color: {color:Post Info Color};
+        }  #top-links>a:hover {
+            margin-right: 1rem;
+            color: {AccentColor};
+        }
+        .tags-container {
+            margin: .5rem 0;
+        }
+        .tag-link {
+            color: {Color:Post Info Color};
+            margin-right: .5rem;
+        } .tag-link:before {
+            content: "#";
+        }
+        .permalink {
+            color: {Color:Post Info Color};
+        }
+        ::selection {
+            color: {BackgroundColor} !important;
+            background: {AccentColor};
+        }
+        .audio_player>iframe {
+            height: 100px;
+            width: 100%;
+        }
+        #credits {
+            color: {TitleColor};
+            position: fixed;
+            bottom: .5rem;
+            right: .5rem;
+            background-color: {BackgroundColor};
+            padding: .1rem .3rem;
+            font-size: 8pt;
+            border-top: 3pt solid {AccentColor};
+        }
+        .read_more {
+            padding-bottom: 2pt;
+            border-bottom: 2px solid {AccentColor};s
+        }
+    </style>
+</head>
+<body>
+
+         <div class="post-container" id="top-card">
+            <div id="titlecontainer">
+                <div id="title">
+                    <a href="/">{Title}</a>
                 </div>
-                {/block:Lines}
-            {/block:Chat}
+                <div id="description">
+                    {Description}
+                </div>
+            </div>
+        
+            <span id="top-links">
+            {block:AskEnabled}
+            <a href="/ask" class="ask">{AskLabel}</a>
+            {/block:AskEnabled}
             
-            {block:Quote}
-                <div class="post-title quote-title">{Quote}</div>
-                {block:Source}
-                    <p class="source">- {Source}</p>
-                {/block:Source}
-            {/block:Quote}
+            {block:SubmissionsEnabled}
+            <a href="/submit" class="submit">{SubmitLabel}</a>
+            {/block:SubmissionsEnabled}
+            </span>
             
-            <!-- Bottom non-post things ================== -->
-            {block:HasTags}
+            <span id="search-container">
+                <form action="/search" method="get">
+                    <input type="text" name="q" value="{SearchQuery}" id="searchbox"/>
+                    <button type="submit" id="searchbutton">search</button>
+                </form>
+            </span>
+        </div>
+
+    <div id="posts-container">
+
+        {block:SearchPage}
+        <div class="post-container">
+            <div class="search-header content">
+                <h2 class="search-title">
+                    {lang:SearchResultCount results for SearchQuery}
+                    {block:NoSearchResults}{lang:Sorry no search results found}{/block:NoSearchResults}
+                </h2>
+            </div>
+        </div>
+        {/block:SearchPage}
+
+
+        {block:Posts}
+        {block:ContentSource}
+<!-- {SourceURL}{block:SourceLogo}<img src="{BlackLogoURL}"
+width="{LogoWidth}" height="{LogoHeight}" alt="{SourceTitle}" />  
+{/block:SourceLogo}
+{block:NoSourceLogo}{SourceLink}{/block:NoSourceLogo} -->
+{/block:ContentSource}
+
+            <div class="post-container">
+
+                {block:Text}
+                <div class="post-content">
+                    {block:Title}<h2 class="title"><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+                    {block:Body}
+                    <div class="body-text">
+                        {Body}
+                    </div>
+                    {/block:Body}
+                </div>
+                {/block:Text}
+                
+                {block:Photo}
+                    <figure class="photo-wrapper">
+                            {LinkOpenTag}<a href = "{PhotoURL-HighRes}" target = "_blank"><img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" width="{PhotoWidth-HighRes}" height="{PhotoHeight-HighRes}"></a>{LinkCloseTag}
+                    </figure>
+                    {block:Caption}
+                    <figcaption class="caption">
+                        {Caption}
+                    </figcaption>
+                    {/block:Caption}
+                {/block:Photo}                
+                
+                {block:Photoset}
+                <figure class="post-content photoset {block:Caption}with-caption{/block:Caption}">
+                    <div class="photoset-wrapper">{Photoset}</div>
+                    {block:Caption}
+                    <figcaption class="caption">
+                        {Caption}
+                    </figcaption>
+                    {/block:Caption}
+                </figure>
+                {/block:Photoset}
+                
+                {block:Quote}
+                <div class="post-content">
+                    <span class="quote-text">{Quote}</span>
+                    {block:Source}
+                    <div class="source">- {Source}</div>
+                    {/block:Source}
+                </div>
+                {/block:Quote}
+        
+        
+                {block:Link}
+                <div class="post-content {block:Description}with-caption{/block:Description}">
+                    <a {Target} href="{URL}" class="link">
+                        {block:Thumbnail}
+                        <img src="{Thumbnail}" alt="" class="link-thumbnail">
+                        {/block:Thumbnail}
+                        <span class="link-text">
+                            <span class="link-title">{Name}</span>
+                            {block:Host}
+                            <span class="link-host">{Host}</span>
+                            {/block:Host}
+                        </span>
+                    </a>
+                    {block:Description}
+                    <div class="caption">
+                        {Description}
+                    </div>
+                    {/block:Description}
+                </div>
+                {/block:Link}
+                
+                {block:Chat}
+                <div class="post-content">
+                    {block:Title}<h2 class="title"><a href="{Permalink}">{Title}</a></h2>{/block:Title}
+                    <ul class="conversation">
+                    {block:Lines}
+                        <li class="chat-{Alt}">{block:Label}<span class="label">{Label}</span>{/block:Label} {Line}</li>
+                    {/block:Lines}
+                    </ul>
+                </div>
+                {/block:Chat}
+
+
+                {block:Audio}
+                <div class="post-content {block:Caption}with-caption{/block:Caption}">
+                    <div class="audio_container">
+                        {AudioPlayer}
+                        {block:AudioEmbed}
+                            {AudioPlayer}
+                        {/block:AudioEmbed}
+                    </div>
+                    {block:Caption}
+                    <div class="caption">
+                        {Caption}
+                    </div>
+                    {/block:Caption}
+                </div>
+                {/block:Audio}
+
+
+                {block:Video}
+                <figure class="post-content {block:Caption}with-caption{/block:Caption}">
+                    <div class="video-wrapper">
+                        {Video-700}
+                    </div>
+                    {block:Caption}
+                    <figcaption class="caption">
+                        {Caption}
+                    </figcaption>
+                    {/block:Caption}
+                </figure>
+                {/block:Video}
+
+                {block:Answer}
+                <div class="post-content">
+                    <div class="note-item note-item-asker">
+                        <div class="text">
+                            <p class="asker"><strong>{Asker}</strong> asked:</p>
+                            <blockquote class="asker-question">
+                                {Question}
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    {block:Answerer}
+                    <div class="note-item note-item-answerer">
+                        <div class="text">
+                            <p class="answerer"><strong>{Answerer}</strong> answered:</p>
+                            <div class="answerer-answer">
+                                {Answer}
+                            </div>
+                        </div>
+                    </div>
+                    {/block:Answerer}
+
+                    <div class="replies">
+                        {Replies}
+                    </div>
+                </div>
+                {/block:Answer}
+                
+                
+                {block:Date}
+                <div class="post-info">
+                    {block:RebloggedFrom}
+                    <span class="reblog-header">
+                        <a class="reblog-link" href="{ReblogParentURL}">via {ReblogParentName}</a>
+                    </span>
+                    {/block:RebloggedFrom}
+                    {block:NoteCount}
+                    <span>
+                        <a href="{Permalink}#notes" class="meta-item post-notes">{NoteCountWithLabel}</a>
+                    </span>
+                    {/block:NoteCount}
+                    
+                {block:HasTags}
                 <div class="tags-container">
-                    <span class="tag">tags: </span>
                     {block:Tags}
-                         <a class="tag" href="{TagURL}">{Tag}</a>
+                         <a class="meta-item tag-link" href="{TagURL}">{Tag}</a>
                     {/block:Tags}
                 </div>
-            {/block:HasTags}
+                {/block:HasTags}
+                    <a class="reblog-button" href={reblogURL}>reblog</a>
+                    
+                    <a style="float: right" href={Permalink} class="permalink" title="permalink">+</a>
+                </div>
+                {/block:Date}
             
-            {block:IndexPage} 
-            <a href={Permalink} class="permalink">link</a>
-            {/block:IndexPage}
-        </div>
+            
+            </div>
+            
+            
+            
         {/block:Posts}
+        
+        {block:PermalinkPage}
+        {block:PostNotes}
+        <div class="post-container">
+        <section id="notes" class="notes-wrapper clearfix">
+            {PostNotes}
+        </section>
+        </div>
+        {/block:PostNotes}
+        {/block:PermalinkPage}
+        
+        
 
-        {block:Pagination}
-        <div class="navcontainer">
-            <div class="navlinks">
-                {block:NextPage}<a href="{NextPage}" class="navbutton accentbg" class="next">prev</a>{/block:NextPage}
-                <a href="{BlogURL}archive" class="accentbg">archive</a>
-                <a href="{BlogURL}random" class="accentbg">random</a>
-                {block:PreviousPage} <a href="{PreviousPage}" class="navbutton accentbg" class="prev">next</a>{/block:PreviousPage}
+            {block:IndexPage}
+            {block:Pagination}
+            <div class="post-container">
+            <div id="navlinks">
+            <div id="pagination">
+                {block:PreviousPage}
+                <a href="{PreviousPage}" class="previous" data-current-page="{CurrentPage}" data-total-pages="{TotalPages}">prev<span class="bg"></span></a>
+                {/block:PreviousPage}
+                {block:NextPage}
+                <a href="{NextPage}" class="next" data-current-page="{CurrentPage}" data-total-pages="{TotalPages}">next<span class="bg"></span></a>
+                {/block:NextPage}
+            </div>
             </div>
         </div>
         {/block:Pagination}
-        
-        {block:PermalinkPagination}
-        <div class="navcontainer">
-            <div class="navlinks">
-                {block:PreviousPost}<a href="{PreviousPost}" class="navbutton accentbg" class="prev">prev</a>{/block:PreviousPost}
-                <a href="{BlogURL}archive" class="accentbg">archive</a>
-                <a href="{BlogURL}random" class="accentbg">random</a>
-                {block:NextPost}<a href="{NextPost}" class="navbutton accentbg" class="next">next</a>{/block:NextPost}
-            </div>
-        </div>
-        {/block:PermalinkPagination}
-    </body>
+        {/block:IndexPage}
+    </div>
+    
+    <div id="credits"><a href="https://pleinairtheme.tumblr.com/" id="credits-link">+</a></div>
+</body>
 </html>

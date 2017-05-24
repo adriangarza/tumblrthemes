@@ -89,11 +89,11 @@
                 font-weight: 600;
             }
             .tag {
-                opacity: .5;
+                color: #bbb;
             }
             a.tag:hover {
                 background-color: {AccentColor};
-                opacity: 1;
+                color: black;
             }
             a.tag:not(:last-child):after {
                 content: ",";
@@ -113,12 +113,17 @@
             .quote-title:after {
                 content: "”";
             }
+            ::selection {
+                background: {AccentColor};
+                color: black;
+            }
         </style>
     </head>
     <body>
         <div id="header-container">
             <div class="title"><a href="/">{Title}</a></div>
-            <div class-"subtitle">{Description}</div>
+            <div class="subtitle">{Description}</div>
+            {block:TagPage}<div class="subtitle">posts tagged with: {Tag}</div>{/block:TagPage}
         </div>
         
         {block:Pagination}

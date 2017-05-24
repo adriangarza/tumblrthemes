@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <link rel="alternate" type="application/rss+xml" href="{RSS}">
         <link rel="shortcut icon" href="{Favicon}">
-        <title>{Title}</title>
+        <title>{block:SearchPage}{SearchQuery} | {/block:SearchPage}{block:PermalinkPage}{block:PostSummary} — {PostSummary}{/block:PostSummary}{/block:PermalinkPage}{Title}</title>
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
         <style>
@@ -57,7 +57,6 @@
             .navcontainer {
                 width: 700px;
                 margin: auto;
-                margin-bottom: 4rem;
             }
             .navlinks {
                 margin-top: 1rem;
@@ -72,12 +71,10 @@
             }
             .permalink {
                 font-size: 14pt;
-                float: right;
-                opacity: .5;
+                color: #bbb;
             }
             .permalink:hover {
-                background-color: {AccentColor};
-                opacity:1;
+                color: black;
             }
             p {
                 margin: 0;
@@ -92,7 +89,6 @@
                 color: #bbb;
             }
             a.tag:hover {
-                background-color: {AccentColor};
                 color: black;
             }
             a.tag:not(:last-child):after {
@@ -104,7 +100,7 @@
             .chat-label {
                 font-weight: 600;
             }
-            .source {
+            .source, .subtitle>p {
                 margin: 1rem 0rem;
             }
             .quote-title:before {
@@ -116,6 +112,32 @@
             ::selection {
                 background: {AccentColor};
                 color: black;
+            }
+            p > a {
+                border-bottom: 2px solid {AccentColor};
+            }
+            #search-container {
+                width: 700px;
+                margin: auto;
+                margin-bottom: 4rem;
+                margin-top: 2rem;
+            }
+            #searchbox {
+                border: none;
+                text-align: left;
+                width: 20rem;
+                font-family: "Source Code Pro", monospace;
+                font-size: 14pt;
+                outline: none;
+                background: transparent;
+                color: black;
+                opacity: .7;
+            }
+            #searchbox:focus{
+                opacity: 1;
+            }
+            .tags-container {
+                margin-bottom: 1rem;
             }
         </style>
     </head>
@@ -191,6 +213,8 @@
                 {/block:Source}
             {/block:Quote}
             
+            
+            
             <!-- Bottom non-post things ================== -->
             {block:HasTags}
                 <div class="tags-container">
@@ -202,7 +226,7 @@
             {/block:HasTags}
             
             {block:IndexPage} 
-            <a href={Permalink} class="permalink">link</a>
+            <a href={Permalink} class="permalink">-</a>
             {/block:IndexPage}
         </div>
         {/block:Posts}
@@ -228,5 +252,11 @@
             </div>
         </div>
         {/block:PermalinkPagination}
+        
+        <div id="search-container">
+            <form action="/search" method="get">
+                <input type="text" placeholder="search" name="q" value="{SearchQuery}" id="searchbox"/>
+            </form>
+        </div>
     </body>
 </html>

@@ -122,7 +122,8 @@
     <body>
         <div id="header-container">
             <div class="title"><a href="/">{Title}</a></div>
-            <div class-"subtitle">{Description}</div>
+            <div class="subtitle">{Description}</div>
+            {block:TagPage}<div class="subtitle">posts tagged with: {Tag}</div>{/block:TagPage}
         </div>
         
         {block:Pagination}
